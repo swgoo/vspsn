@@ -2,7 +2,9 @@
   "name": "vspsn",
   "displayName": "vspsn",
   "description": "executer Perl Speaks NONMEM command",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "publisher": "swgoo",
+  "repository":"https://github.com/swgoo/vspsn",
   "engines": {
     "vscode": "^1.76.0"
   },

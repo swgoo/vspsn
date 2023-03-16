@@ -29,7 +29,10 @@ interface FilePath{
  */
 async function getDirNameExtFromAcriveTextEditor(): Promise<FilePath | undefined> {
 	const fpath = await window.activeTextEditor?.document.fileName;
-	if (fpath === undefined) {return;}
+	if (fpath === undefined) {
+		window.showInformationMessage(`open a mod file`);
+		return;
+	}
 	const fext = path.extname(fpath);
 	const fname = path.basename(fpath, fext);
 	const fdir = path.dirname(fpath);
