@@ -45,6 +45,12 @@ function getDirNameExtFromAcriveTextEditor(uri : Uri): FilePath | undefined {
 	return result;
 }
 
+function openTerminal(name: string, cwd: string, cmd: string) {
+	const psnTerminal = window.createTerminal({name: `PsN Terminal: ${cmd}`, cwd: cwd});
+	psnTerminal.sendText(cmd);
+	psnTerminal.show();
+}
+
 export async function showExcuteCmdBox(uri : Uri) {
 	const fp = getDirNameExtFromAcriveTextEditor(uri);
 	if (fp === undefined){return;}
@@ -54,22 +60,21 @@ export async function showExcuteCmdBox(uri : Uri) {
 		return;
 	}
 
-	const cmdList = [];
-	cmdList.push('execute');
-	cmdList.push([fp.name, fp.ext].join(''));
-	const cmdstr = cmdList.join(' ');
+	const defaultCmdList = [];
+	defaultCmdList.push('execute');
+	defaultCmdList.push([fp.name, fp.ext].join(''));
+	const defaultCmd = defaultCmdList.join(' ');
 
-	const result = await window.showInputBox({
-		value: cmdstr,
-		placeHolder: 'psn execute cmd',
+	const inputCmd = await window.showInputBox({
+		value: defaultCmd,
+		placeHolder: 'PsN Command',
+		title: 'PsN Command'
 	});
 
-	if (result === undefined) {
+	if (inputCmd === undefined) {
 		return;
 	}
-	const psnTerminal = window.createTerminal({name: 'psn terminal', cwd: fp.dir.toString()});
-	psnTerminal.sendText(result);
-	psnTerminal.show();
+	openTerminal(inputCmd, fp.dir.toString(), inputCmd);
 };
 
 export async function showVPCCmdBox(uri : Uri) {
@@ -82,23 +87,21 @@ export async function showVPCCmdBox(uri : Uri) {
 	}
 	
 
-	const cmdList = [];
-	cmdList.push('vpc -samples=200 -auto_bin=auto');
-	cmdList.push(`-dir=vpc_${fp.name}`);
-	cmdList.push([fp.name, fp.ext].join(''));
-	const cmdstr = cmdList.join(' ');
+	const defaultCmdList = [];
+	defaultCmdList.push('vpc -samples=200 -auto_bin=auto');
+	defaultCmdList.push(`-dir=vpc_${fp.name}`);
+	defaultCmdList.push([fp.name, fp.ext].join(''));
+	const defaultCmd = defaultCmdList.join(' ');
 
-	const result = await window.showInputBox({
-		value: cmdstr,
+	const cmd = await window.showInputBox({
+		value: defaultCmd,
 		placeHolder: 'psn execute cmd',
 	});
 
-	if (result === undefined) {
+	if (cmd === undefined) {
 		return;
 	}
-	const psnTerminal = window.createTerminal({name: 'psn terminal', cwd: fp.dir.toString()});
-	psnTerminal.sendText(result);
-	psnTerminal.show();
+	openTerminal(cmd, fp.dir.toString(), cmd);
 };
 
 export async function showBootStrapCmdBox(uri: Uri) {
@@ -111,23 +114,21 @@ export async function showBootStrapCmdBox(uri: Uri) {
 	}
 	
 
-	const cmdList = [];
-	cmdList.push('bootstrap -samples=50 -threads=4');
-	cmdList.push(`-dir=bs_${fp.name}`);
-	cmdList.push([fp.name, fp.ext].join(''));
-	const cmdstr = cmdList.join(' ');
+	const defaultCmdList = [];
+	defaultCmdList.push('bootstrap -samples=50 -threads=4');
+	defaultCmdList.push(`-dir=bs_${fp.name}`);
+	defaultCmdList.push([fp.name, fp.ext].join(''));
+	const defaultCmd = defaultCmdList.join(' ');
 
-	const result = await window.showInputBox({
-		value: cmdstr,
+	const cmd = await window.showInputBox({
+		value: defaultCmd,
 		placeHolder: 'psn execute cmd',
 	});
 
-	if (result === undefined) {
+	if (cmd === undefined) {
 		return;
 	}
-	const psnTerminal = window.createTerminal({name: 'psn terminal', cwd: fp.dir.toString()});
-	psnTerminal.sendText(result);
-	psnTerminal.show();
+	openTerminal(cmd, fp.dir.toString(), cmd);
 };
 
 export async function showSCMCmdBox(uri : Uri) {
@@ -140,20 +141,18 @@ export async function showSCMCmdBox(uri : Uri) {
 	}
 	
 
-	const cmdList = [];
-	cmdList.push(`scm -config_file=${fp.name}.scm`);
-	cmdList.push(`-model=${fp.name}${fp.ext}`);
-	const cmdstr = cmdList.join(' ');
+	const defaultCmdList = [];
+	defaultCmdList.push(`scm -config_file=${fp.name}.scm`);
+	defaultCmdList.push(`-model=${fp.name}${fp.ext}`);
+	const defaultCmd = defaultCmdList.join(' ');
 
-	const result = await window.showInputBox({
-		value: cmdstr,
+	const cmd = await window.showInputBox({
+		value: defaultCmd,
 		placeHolder: 'psn execute cmd',
 	});
 
-	if (result === undefined) {
+	if (cmd === undefined) {
 		return;
 	}
-	const psnTerminal = window.createTerminal({name: 'psn terminal', cwd: fp.dir.toString()});
-	psnTerminal.sendText(result);
-	psnTerminal.show();
+	openTerminal(cmd, fp.dir.toString(), cmd);
 };

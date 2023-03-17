@@ -1,15 +1,15 @@
 {
   "name": "vspsn",
-  "displayName": "vspsn",
+  "displayName": "VsPsN",
   "description": "executer Perl Speaks NONMEM command",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "swgoo",
   "repository":"https://github.com/swgoo/vspsn",
   "engines": {
     "vscode": "^1.76.0"
   },
   "categories": [
-    "Other" 
+    "Other"
   ],
   "activationEvents": [
     "onLanguage:mod"
