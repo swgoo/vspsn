@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { window } from 'vscode';
+import { window, Uri} from 'vscode';
 import * as path from 'path';
 
 /**
@@ -27,8 +27,8 @@ interface FilePath{
 /**
  * Shows an input box using window.showInputBox().
  */
-async function getDirNameExtFromAcriveTextEditor(): Promise<FilePath | undefined> {
-	const fpath = await window.activeTextEditor?.document.fileName;
+function getDirNameExtFromAcriveTextEditor(uri : Uri): FilePath | undefined {
+	const fpath = uri.fsPath;
 	if (fpath === undefined) {
 		window.showInformationMessage(`open a mod file`);
 		return;
@@ -45,8 +45,8 @@ async function getDirNameExtFromAcriveTextEditor(): Promise<FilePath | undefined
 	return result;
 }
 
-export async function showExcuteCmdBox() {
-	const fp = await getDirNameExtFromAcriveTextEditor();
+export async function showExcuteCmdBox(uri : Uri) {
+	const fp = getDirNameExtFromAcriveTextEditor(uri);
 	if (fp === undefined){return;}
 
 	if (fp.ext !== '.mod' ) {
@@ -72,8 +72,8 @@ export async function showExcuteCmdBox() {
 	psnTerminal.show();
 };
 
-export async function showVPCCmdBox() {
-	const fp = await getDirNameExtFromAcriveTextEditor();
+export async function showVPCCmdBox(uri : Uri) {
+	const fp = getDirNameExtFromAcriveTextEditor(uri);
 	if (fp === undefined){return;}
 
 	if (fp.ext !== '.mod' ) {
@@ -101,8 +101,8 @@ export async function showVPCCmdBox() {
 	psnTerminal.show();
 };
 
-export async function showBootStrapCmdBox() {
-	const fp = await getDirNameExtFromAcriveTextEditor();
+export async function showBootStrapCmdBox(uri: Uri) {
+	const fp = getDirNameExtFromAcriveTextEditor(uri);
 	if (fp === undefined){return;}
 
 	if (fp.ext !== '.mod' ) {
@@ -130,8 +130,8 @@ export async function showBootStrapCmdBox() {
 	psnTerminal.show();
 };
 
-export async function showSCMCmdBox() {
-	const fp = await getDirNameExtFromAcriveTextEditor();
+export async function showSCMCmdBox(uri : Uri) {
+	const fp = getDirNameExtFromAcriveTextEditor(uri);
 	if (fp === undefined){return;}
 
 	if (fp.ext !== '.mod' ) {

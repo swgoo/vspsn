@@ -2,7 +2,7 @@
   "name": "vspsn",
   "displayName": "vspsn",
   "description": "executer Perl Speaks NONMEM command",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "swgoo",
   "repository":"https://github.com/swgoo/vspsn",
   "engines": {
@@ -17,12 +17,59 @@
   "main": "./out/extension.js",
 	"contributes": {
 		"commands": [
-			{
-				"command": "vspsn.root",
-				"title": "VsPsN Commands",
-        "category": "VsPsN"
-			}
-		]
+      {
+        "command": "vspsn.execute",
+        "title": "execute",
+        "icon": "$(play)"
+      },
+      {
+        "command": "vspsn.diagnostics.vpc",
+        "title": "vpc"
+      },
+      {
+        "command": "vspsn.diagnostics.bootstrap",
+        "title": "bootstrap"
+      },
+      {
+        "command": "vspsn.covariates.scm",
+        "title": "scm"
+      }
+		],
+    "menus": {
+      "editor/title": [
+        {
+          "submenu": "vspsn",
+          "when": "resourceExtname == .mod",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .mod",
+          "command": "vspsn.execute",
+          "group": "navigation"
+        }
+      ],
+      "vspsn":[
+        {
+          "group": "2_diagnostics",
+          "command": "vspsn.diagnostics.vpc"
+        },
+        {
+          "group": "2_diagnostics",
+          "command": "vspsn.diagnostics.bootstrap"
+        },
+        {
+          "group": "3_covariates",
+          "command": "vspsn.covariates.scm"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "vspsn",
+        "label": "VsPsN",
+        "icon": "$(chevron-down)"
+      }
+    ]
 	},
   "scripts": {
     "vscode:prepublish": "npm run compile",
