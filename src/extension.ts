@@ -29,17 +29,17 @@ export function activate(context: ExtensionContext) {
 	disposables.push(disposable);
 
 	disposable = commands.registerCommand('vspsn.diagnostics.vpc', async (uri:Uri) => {
-		showExcuteCmdBox(uri);
+		showVPCCmdBox(uri);
 	  });
 	disposables.push(disposable);
 
 	disposable = commands.registerCommand('vspsn.diagnostics.bootstrap', async (uri:Uri) => {
-		showExcuteCmdBox(uri);
+		showBootStrapCmdBox(uri);
 	  });
 	disposables.push(disposable);
 
 	disposable = commands.registerCommand('vspsn.covariates.scm', async (uri:Uri) => {
-		showExcuteCmdBox(uri);
+		showSCMCmdBox(uri);
 	  });
 	disposables.push(disposable);
 	
