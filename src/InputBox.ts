@@ -7,9 +7,6 @@ interface FilePath{
 	ext: String;
 }
 
-/**
- * Shows an input box using window.showInputBox().
- */
 function getDirNameExt(uri : Uri): FilePath {
 	const fpath = uri.fsPath;
 	const fext = path.extname(fpath);
