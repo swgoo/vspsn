@@ -1,6 +1,7 @@
 import { window, Uri, workspace, ExtensionContext, env} from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as https from 'https';
 
 // interface FilePath{
 // 	dir : String;
@@ -75,29 +76,47 @@ export async function showBootStrapCmdBox(uri: Uri) {
 	openTerminal(path.dirname(uri.fsPath).toString(), inputCmd);
 };
 
-export async function showSCMCmdBox(uri : Uri, context : ExtensionContext) {
+export async function showSCMCmdBox(uri : Uri) {
 
 	const modFileName = path.basename(uri.fsPath, path.extname(uri.fsPath));
 	const existScm = fs.existsSync(`${uri.fsPath.replace('.mod', '')}.scm`);
 	if (!existScm) {
-		window.showErrorMessage('scm config file is not exist.');
-		
 		const result = await window.showQuickPick(['yes', 'no'], {
 			placeHolder: 'yes/no',
 			title: 'Create .scm File'
 		});
 		
 		if (result === 'yes') {
-			const resourcePath = Uri.joinPath(context.extensionUri, 'resources', 'template.scm');
+			const scmUrl = "https://raw.githubusercontent.com/UUPharmacometrics/PsN/master/doc/config_template_standard.scm";
 			const createdSCMPath = uri.fsPath.replace('.mod', '.scm');
-			fs.copyFileSync(resourcePath.fsPath, createdSCMPath);
-			window.showInformationMessage(`please edit ${modFileName}.scm`);
-			window.showTextDocument(Uri.file(createdSCMPath));
+
+			https.get(scmUrl, (response) => {
+				// Create a write stream to save the file
+				const fileStream = fs.createWriteStream(createdSCMPath);
+			  
+				// Pipe the response to the write stream
+				response.pipe(fileStream);
+			  
+				// When the download is complete, close the write stream
+				response.on('end', () => {
+				  fileStream.close();
+				  window.showTextDocument(Uri.file(createdSCMPath));
+				});
+			  }).on('error', (error) => {
+				console.error(`Error downloading file: ${error}`);
+			  });
+
+			window.showInformationMessage(`please edit ${modFileName}.scm. and you can read a document about scm module from the link`, 'Open Link')
+			.then(selection => {
+				if (selection === 'Open Link') {
+					env.openExternal(Uri.parse('https://github.com/UUPharmacometrics/PsN/releases/latest/download/scm_userguide.pdf'));
+				}
+			});
 		} else {
 			window.showInformationMessage("you can get a scm file from the link", 'Open Link')
 			.then(selection => {
 				if (selection === 'Open Link') {
-					env.openExternal(Uri.parse('https://uupharmacometrics.github.io/PsN/docs.html'));
+					env.openExternal(Uri.parse('https://github.com/UUPharmacometrics/PsN/tree/master/doc'));
 				}
 			});
 		} 

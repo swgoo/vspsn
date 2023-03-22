@@ -21,7 +21,7 @@ export function activate(context: ExtensionContext) {
 	disposables.push(disposable);
 
 	disposable = commands.registerCommand('vspsn.covariates.scm', async (uri:Uri) => {
-		showSCMCmdBox(uri, context);
+		showSCMCmdBox(uri);
 	  });
 	disposables.push(disposable);
 	
