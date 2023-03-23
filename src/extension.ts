@@ -5,22 +5,22 @@ import { showExcuteCmdBox, showVPCCmdBox, showBootStrapCmdBox, showSCMCmdBox} fr
 
 export function activate(context: ExtensionContext) {
 	let disposables : Disposable[] = [];
-	var disposable = commands.registerCommand('vspsn.execute', async (uri:Uri) => {
+	var disposable = commands.registerCommand('vspsn.execute', (uri:Uri) => {
 		showExcuteCmdBox(uri);
 	  });
 	disposables.push(disposable);
 
-	disposable = commands.registerCommand('vspsn.diagnostics.vpc', async (uri:Uri) => {
+	disposable = commands.registerCommand('vspsn.diagnostics.vpc', (uri:Uri) => {
 		showVPCCmdBox(uri);
 	  });
 	disposables.push(disposable);
 
-	disposable = commands.registerCommand('vspsn.diagnostics.bootstrap', async (uri:Uri) => {
+	disposable = commands.registerCommand('vspsn.diagnostics.bootstrap', (uri:Uri) => {
 		showBootStrapCmdBox(uri);
 	  });
 	disposables.push(disposable);
 
-	disposable = commands.registerCommand('vspsn.covariates.scm', async (uri:Uri) => {
+	disposable = commands.registerCommand('vspsn.covariates.scm', (uri:Uri) => {
 		showSCMCmdBox(uri);
 	  });
 	disposables.push(disposable);

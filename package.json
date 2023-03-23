@@ -20,19 +20,27 @@
       {
         "command": "vspsn.execute",
         "title": "execute",
-        "icon": "$(play)"
+        "icon": "$(play)",
+        "category": "vspsn",
+        "enablement": "resourceExtname == .mod"
       },
       {
         "command": "vspsn.diagnostics.vpc",
-        "title": "vpc"
+        "title": "vpc",
+        "category": "vspsn",
+        "enablement": "resourceExtname == .mod"
       },
       {
         "command": "vspsn.diagnostics.bootstrap",
-        "title": "bootstrap"
+        "title": "bootstrap",
+        "category": "vspsn",
+        "enablement": "resourceExtname == .mod"
       },
       {
         "command": "vspsn.covariates.scm",
-        "title": "scm"
+        "title": "scm",
+        "category": "vspsn",
+        "enablement": "resourceExtname == .mod"
       }
 		],
     "menus": {

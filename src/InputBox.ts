@@ -28,7 +28,20 @@ function openTerminal(cwd: string, cmd: string) {
 	psnTerminal.show();
 }
 
-export async function showExcuteCmdBox(uri : Uri) {
+async function checkUri(uri: Uri|undefined): Promise<Uri | undefined>{
+	const activeUri = await window.activeTextEditor?.document.uri;
+	if (uri === undefined && activeUri !== undefined) {
+		return activeUri;
+	} else {
+		return uri;
+	}
+} 
+
+export async function showExcuteCmdBox(uri : Uri|undefined) {
+
+	var uri = await checkUri(uri);
+	if (uri === undefined) {return;}
+	
 	const defaultCmdList = [];
 	defaultCmdList.push('execute');
 	defaultCmdList.push(`${path.basename(uri.fsPath)}`);
@@ -44,7 +57,11 @@ export async function showExcuteCmdBox(uri : Uri) {
 	openTerminal(path.dirname(uri.fsPath), inputCmd);
 };
 
-export async function showVPCCmdBox(uri : Uri) {	
+export async function showVPCCmdBox(uri : Uri|undefined) {	
+
+	var uri = await checkUri(uri);
+	if (uri === undefined) {return;}
+
 	const defaultCmdList = [];
 	defaultCmdList.push('vpc -samples=200 -auto_bin=auto');
 	defaultCmdList.push(`-dir=vpc_${path.basename(uri.fsPath, path.extname(uri.fsPath))}`);
@@ -60,7 +77,10 @@ export async function showVPCCmdBox(uri : Uri) {
 	openTerminal(path.dirname(uri.fsPath), inputCmd);
 };
 
-export async function showBootStrapCmdBox(uri: Uri) {
+export async function showBootStrapCmdBox(uri: Uri|undefined) {
+	var uri = await checkUri(uri);
+	if (uri === undefined) {return;}
+
 	const defaultCmdList = [];
 	defaultCmdList.push('bootstrap -samples=50 -threads=4');
 	defaultCmdList.push(`-dir=bs_${path.basename(uri.fsPath, path.extname(uri.fsPath))}`);
@@ -76,7 +96,9 @@ export async function showBootStrapCmdBox(uri: Uri) {
 	openTerminal(path.dirname(uri.fsPath).toString(), inputCmd);
 };
 
-export async function showSCMCmdBox(uri : Uri) {
+export async function showSCMCmdBox(uri : Uri | undefined) {
+	var uri = await checkUri(uri);
+	if (uri === undefined) {return;}
 
 	const modFileName = path.basename(uri.fsPath, path.extname(uri.fsPath));
 	const existScm = fs.existsSync(`${uri.fsPath.replace('.mod', '')}.scm`);
