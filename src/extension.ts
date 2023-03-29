@@ -1,5 +1,6 @@
-import { window, commands, ExtensionContext, Uri, Disposable } from 'vscode';
+import { window, commands, ExtensionContext, Uri, Disposable, workspace, } from 'vscode';
 import { showExcuteCmdBox, showVPCCmdBox, showBootStrapCmdBox, showSCMCmdBox} from './InputBox';
+import {NodeDependenciesProvider} from './treeView';
 // import { multiStepInput } from './multiStepInput';
 // import { quickOpen } from './quickOpen';
 
@@ -27,4 +28,16 @@ export function activate(context: ExtensionContext) {
 	
 
 	context.subscriptions.push(...disposables);
+
+	const rootPath =
+		workspace.workspaceFolders && workspace.workspaceFolders.length > 0
+				? workspace.workspaceFolders[0].uri.fsPath
+				: undefined;
+	window.registerTreeDataProvider(
+		'vspsn-explore',
+		new NodeDependenciesProvider(rootPath)
+		);
+	window.createTreeView('vspsn-explore', {
+			treeDataProvider: new NodeDependenciesProvider(rootPath)
+		});
 }

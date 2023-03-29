@@ -3,33 +3,14 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as https from 'https';
 
-// interface FilePath{
-// 	dir : String;
-// 	name: String;
-// 	ext: String;
-// }
-
-// function getDirNameExt(uri : Uri): FilePath {
-// 	const fpath = uri.fsPath;
-// 	const fext = path.extname(fpath);
-// 	const fname = path.basename(fpath, fext);
-// 	const fdir = path.dirname(fpath);
-	
-// 	return { 
-// 		dir: fdir,
-// 		name: fname,
-// 		ext: fext
-// 	};
-// }
-
 function openTerminal(cwd: string, cmd: string) {
 	const psnTerminal = window.createTerminal({name: `PsN Terminal: ${cmd}`, cwd: cwd});
 	psnTerminal.sendText(cmd);
 	psnTerminal.show();
 }
 
-async function checkUri(uri: Uri|undefined): Promise<Uri | undefined>{
-	const activeUri = await window.activeTextEditor?.document.uri;
+function checkUri(uri: Uri): Uri{
+	const activeUri = window.activeTextEditor?.document.uri;
 	if (uri === undefined && activeUri !== undefined) {
 		return activeUri;
 	} else {
@@ -37,9 +18,9 @@ async function checkUri(uri: Uri|undefined): Promise<Uri | undefined>{
 	}
 } 
 
-export async function showExcuteCmdBox(uri : Uri|undefined) {
+export async function showExcuteCmdBox(uri : Uri) {
 
-	var uri = await checkUri(uri);
+	var uri = checkUri(uri);
 	if (uri === undefined) {return;}
 	
 	const defaultCmdList = [];
@@ -57,9 +38,9 @@ export async function showExcuteCmdBox(uri : Uri|undefined) {
 	openTerminal(path.dirname(uri.fsPath), inputCmd);
 };
 
-export async function showVPCCmdBox(uri : Uri|undefined) {	
+export async function showVPCCmdBox(uri : Uri) {	
 
-	var uri = await checkUri(uri);
+	var uri = checkUri(uri);
 	if (uri === undefined) {return;}
 
 	const defaultCmdList = [];
@@ -77,8 +58,8 @@ export async function showVPCCmdBox(uri : Uri|undefined) {
 	openTerminal(path.dirname(uri.fsPath), inputCmd);
 };
 
-export async function showBootStrapCmdBox(uri: Uri|undefined) {
-	var uri = await checkUri(uri);
+export async function showBootStrapCmdBox(uri: Uri) {
+	var uri = checkUri(uri);
 	if (uri === undefined) {return;}
 
 	const defaultCmdList = [];
@@ -96,19 +77,19 @@ export async function showBootStrapCmdBox(uri: Uri|undefined) {
 	openTerminal(path.dirname(uri.fsPath).toString(), inputCmd);
 };
 
-export async function showSCMCmdBox(uri : Uri | undefined) {
-	var uri = await checkUri(uri);
+export async function showSCMCmdBox(uri : Uri) {
+	var uri = checkUri(uri);
 	if (uri === undefined) {return;}
 
 	const modFileName = path.basename(uri.fsPath, path.extname(uri.fsPath));
 	const existScm = fs.existsSync(`${uri.fsPath.replace('.mod', '')}.scm`);
 	if (!existScm) {
-		const result = await window.showQuickPick(['yes', 'no'], {
-			placeHolder: 'yes/no',
+		const input = await window.showQuickPick(['yes', 'no'], {
+			placeHolder: 'yes, y or no, n',
 			title: 'Create .scm File'
 		});
 		
-		if (result === 'yes') {
+		if (input === 'yes' || 'y') {
 			const scmUrl = "https://raw.githubusercontent.com/UUPharmacometrics/PsN/master/doc/config_template_standard.scm";
 			const createdSCMPath = uri.fsPath.replace('.mod', '.scm');
 
