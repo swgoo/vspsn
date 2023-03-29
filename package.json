@@ -11,17 +11,22 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onLanguage:mod"
-  ],
   "main": "./out/extension.js",
 	"contributes": {
-    "viewsContainers": { 
-      "panel": [
+    "viewsContainers": {
+      "activitybar": [{
+        "id": "vspsn-explorer",
+        "title": "VsPsN Explorer",
+        "icon": "$(play)"
+      }]
+    },
+    "views": {
+      "vspsn-explorer":[
         {
           "id": "vspsn-explorer",
-          "title": "VsPsN Explorer",
-          "icon": "$(play)"
+          "name": "vspsn",
+          "icon": "$(play)",
+          "contextualTitle": "VsPsN Explorer"
         }
       ]
     },

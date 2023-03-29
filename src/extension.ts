@@ -34,10 +34,10 @@ export function activate(context: ExtensionContext) {
 				? workspace.workspaceFolders[0].uri.fsPath
 				: undefined;
 	window.registerTreeDataProvider(
-		'vspsn-explore',
+		'vspsn-explorer',
 		new NodeDependenciesProvider(rootPath)
 		);
-	window.createTreeView('vspsn-explore', {
+	window.createTreeView('vspsn-explorer', {
 			treeDataProvider: new NodeDependenciesProvider(rootPath)
 		});
 }
