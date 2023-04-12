@@ -11,6 +11,9 @@
   "categories": [
     "Other"
   ],
+  "activationEvents": [
+    "onLanguage:mod"
+  ],
   "main": "./out/extension.js",
 	"contributes": {
     "viewsContainers": {

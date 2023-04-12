@@ -4,6 +4,7 @@ import {NodeDependenciesProvider} from './treeView';
 // import { multiStepInput } from './multiStepInput';
 // import { quickOpen } from './quickOpen';
 
+//TODO support pharmpy library 
 export function activate(context: ExtensionContext) {
 	let disposables : Disposable[] = [];
 	var disposable = commands.registerCommand('vspsn.execute', (uri:Uri) => {
@@ -33,6 +34,9 @@ export function activate(context: ExtensionContext) {
 		workspace.workspaceFolders && workspace.workspaceFolders.length > 0
 				? workspace.workspaceFolders[0].uri.fsPath
 				: undefined;
+	if (rootPath === undefined) {
+		return;
+	}
 	window.registerTreeDataProvider(
 		'vspsn-explorer',
 		new NodeDependenciesProvider(rootPath)
